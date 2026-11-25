@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { api, errorCode, errorMsg } from "../api";
+import { api, errorMsg } from "../api";
 import { Field, inputCls, btnCls } from "../componentes";
 
 export default function Register() {
@@ -25,7 +25,7 @@ export default function Register() {
       await api.post("/auth/register", { name: name.trim(), email, password });
       navigate("/login");
     } catch (err) {
-      setApiError(errorCode(err) ? errorMsg(err) : "No se pudo registrar");
+      setApiError(errorMsg(err));
     }
   };
 

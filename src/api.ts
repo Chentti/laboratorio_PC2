@@ -25,7 +25,9 @@ export function errorCode(e: unknown): string {
 }
 
 export function errorMsg(e: unknown): string {
-  return axios.isAxiosError(e) ? e.response?.data?.message ?? "Error" : "Error";
+  if (!axios.isAxiosError(e)) return "Ocurrió un error inesperado";
+  if (!e.response) return "No se pudo conectar con el servidor";
+  return e.response.data?.message ?? "Ocurrió un error inesperado";
 }
 
 export type PageResp<T> = {

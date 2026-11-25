@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { api } from "../api";
+import { api, errorCode, errorMsg } from "../api";
 import { Field, inputCls, btnCls } from "../componentes";
 
 export default function Login() {
@@ -17,8 +17,8 @@ export default function Login() {
       const res = await api.post<{ token: string }>("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
       navigate("/dashboard");
-    } catch {
-      setError("Correo o contraseña incorrectos");
+    } catch (err) {
+      setError(errorCode(err) === "UNAUTHORIZED" ? "Correo o contraseña incorrectos" : errorMsg(err));
     }
   };
 
